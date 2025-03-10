@@ -32,7 +32,7 @@ jobs:
           mkdir github-artifacts
           echo -n "${{ env.FILES }}" | awk '{$1=$1};1' | sed "s/.tex$/.pdf/g" | rsync -a --files-from=- . ./github-artifacts
       - name: Upload pdf's as artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: pdfs
           path: ./github-artifacts
@@ -42,7 +42,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
           path: github-artifacts
       - name: Move pdf
