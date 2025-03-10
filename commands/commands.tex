@@ -1,0 +1,106 @@
+% Packages
+\usepackage{amsmath,amssymb,amsthm,amsfonts,thmtools}
+\usepackage{enumitem}[cleveref]
+\usepackage{amsfonts}
+\usepackage[margin=1in]{geometry}
+\usepackage{float}
+
+% Avoid footnote patch error
+\usepackage[final,nopatch=footnote]{microtype}
+
+\RequirePackage{color}
+\RequirePackage{tikz}
+\RequirePackage{tikz-cd}
+
+% For arrows
+\RequirePackage{mathtools}
+
+% For script letters
+\RequirePackage{mathrsfs}
+
+% For boxes around cheatsheets
+\usepackage{mdframed}
+\mdfdefinestyle{cheatsheet}{%
+    linecolor=black,
+    outerlinewidth=2pt,
+    roundcorner=20pt,
+    innertopmargin=4pt,
+    innerbottommargin=4pt,
+    innerrightmargin=40pt,
+    innerleftmargin=40pt,
+    leftmargin = 100pt,
+    rightmargin = 100pt
+    backgroundcolor=gray!50!white}
+
+% Parindent/parskip
+% \setlength{\parindent}{0pt}
+
+% Custom color names
+\usepackage{xcolor}
+\definecolor{darkgreen}{rgb}{0,0.30,0}
+\definecolor{darkred}{rgb}{0.75,0,0}
+\definecolor{darkblue}{rgb}{0,0,0.6} 
+\definecolor{custompurple}{RGB}{62, 34, 127}
+
+
+% Citation colors
+\def\customcitecolor{darkred}
+\def\customlinkcolor{darkred}
+
+% Hyperref settings
+\usepackage[%
+    colorlinks,
+    citecolor=\customcitecolor,%
+    linkcolor=\customlinkcolor,%
+    urlcolor=\customlinkcolor%
+]{hyperref}
+
+% Removes vertical spacing around aligned environments
+\usepackage{etoolbox}
+\newcommand{\zerodisplayskips}{%
+  \setlength{\abovedisplayskip}{2pt}%
+  \setlength{\belowdisplayskip}{2pt}%
+  \setlength{\abovedisplayshortskip}{0pt}%
+  \setlength{\belowdisplayshortskip}{0pt}}
+\appto{\normalsize}{\zerodisplayskips}
+\appto{\small}{\zerodisplayskips}
+\appto{\footnotesize}{\zerodisplayskips}
+
+% Removes spacing around enumerate/itemize environments
+\usepackage{enumitem}
+\usepackage{setspace}
+\setlist[enumerate,1]{leftmargin=1cm}
+\setlist[enumerate,2]{leftmargin=2cm}
+\setlist[itemize,1]{leftmargin=0.5cm}
+\setlist[itemize,2]{leftmargin=2cm}
+\setlist{nosep} % or \setlist{noitemsep} to leave space around whole list
+
+% Section headings
+\newcommand{\sectionheader}{Lecture~\thesection:~}
+
+% Course info
+\newcommand{\theinstructor}{Thomas Brazelton}
+\newcommand{\thecoursetitle}{Galois groups in enumerative geometry}
+\newcommand{\thetitle}{\thecoursetitle}
+\newcommand{\theterm}{Spring 2025}
+
+% Title page
+\title{\MakeUppercase{\thetitle} \\ \theterm}
+\author{\theinstructor}
+%\date{\theterm}
+
+% Header
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\itshape\thecoursetitle}
+\fancyhead[R]{\small\itshape\theterm}
+\setlength{\headheight}{12.0pt}
+\setlength{\footskip}{13.0pt}
+
+% Last hacky commands
+\newcommand{\todo}{\color{red}\text{todo:}\, \color{black}}
+\let\minus\smallsetminus
+\renewcommand{\labelitemi}{$\triangleright$}
+\let\emptyset\varnothing
+

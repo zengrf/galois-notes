@@ -1,0 +1,209 @@
+\documentclass[11pt]{amsart}
+\usepackage[page,toc,titletoc,title]{appendix}
+
+% Bibliography stuff
+\usepackage[doi=false,isbn=false,url=false,style=alphabetic]{biblatex}
+\bibliography{citations.bib}
+
+
+\input{commands/commands.tex}
+\input{commands/macros.tex}
+\input{commands/thms.tex}
+
+\usepackage{epigraph}
+
+% For editing purposes, disable on commit
+%\usepackage{showkeys}
+
+\DeclareFieldFormat{postnote}{#1}
+\DeclareFieldFormat{multipostnote}{#1}
+
+\def\theshiftamount{2}
+
+\let\del\partial
+\let\til\widetilde
+\let\nsubgp\trianglelefteq
+\let\smashprod\wedge
+
+% get rid of fancyhdr errors
+\setlength{\footskip}{13.6pt}
+\setlength{\parskip}{0.5em}
+
+
+% Custom quote block command
+\setlength{\epigraphwidth}{0.8\textwidth}
+\newcommand{\quoteblock}[2]{\epigraph{\itshape#1}{#2}}
+
+\fancyfoot[C]{\thepage}
+\begin{document}
+
+\begin{abstract} \href{https://github.com/tbrazel/galois-notes}{https://github.com/tbrazel/galois-notes}
+\end{abstract}
+
+
+\maketitle
+
+% \setcounter{tocdepth}{1}
+% \tableofcontents{}
+
+\setcounter{section}{-1}
+\section{About}
+
+Some notes from a mini-seminar run in Spring 2025 on Galois groups of enumerative problems, following Joe Harris' 1979 paper of the same name \cite{Harris-Galois}. These notes aren't intended to be a definitive reference, but are perhaps more narrow than the survey paper \cite{SottileYahl}, for instance. Our goals are to fill out details and examples to better understand how to carry out computations in monodromy and enumerative geometry.
+
+\section{Talk 1: Thomas Brazelton, 3/10}
+
+\begin{question} Given an enumerative problem, to what field extension do we need to pass to in order to find all its solutions?
+\end{question}
+
+This question has its roots in 19th century algebraic geometry, and was crystallized by Jordan in Chapter III of his treatise on Galois theory:
+
+\begin{question} Are these sorts of questions \textit{solvable}? Meaning solvable in radicals?
+\end{question}
+
+
+\quoteblock{%
+Les solutions des problèmes dont il s'agit sont en général assez nombreuses, mais liées les unes aux autres par certaines relations géometriques. De ces relations on déduit immédiatement l'existence d'une fonction entière $\phi(x_0,x_1,\ldots)$ dont le group contient celui de l'équation $X$. Réciproquement, si l'on était certain de connaître \emph{toutes} les relations géométriques que présente la question proposée (ou du moins celles dont les autres dérivent), le group de l'équation $X$ contiendrait toutes les substitutions du group de $\phi(x_0,x_1,\ldots)$. Mais une semblable certitude est difficile à obtenir, malgré le soin apporté par d'habiles géomètres à l'étude de ces problèmes. Il ne serait donc pas impossible que les équations auxquelles ces problèmes donnent naissance eussent parfois une forme plus particulière encore que celle que nous allons trouver, en nous appuyant sur les résultats obtenus par nos prédécesseurs}{%
+Camille Jordan, 1870, \cite[pp.301-302]{Jordan}}
+
+The six subsections of Chapter III in Jordan's book are dedicated to particular problems whose Galois group he is interested in studying. For instance:
+\begin{itemize}
+    \item[III.I] Given a planar cubic curve, we know by work of Hesse that it has the property that the line passing through any two of its flexes pass through the cubic at a third inflection point. As there are nine flexes, each flex lies on four of these lines, for a total of 12 lines.\footnote{todo -- I don't think all flexes can be real (?) but can we visualize this somehow?} \emph{Can we obtain a formula for the flexes in terms of the coefficients of the cubic?}
+
+    \item[III.II] Given a quartic curve, can we find a cubic curve so that among the 12 points of intersection, they are in three sets of four colinear points? This follows work of Clebsch, who asked \textit{contact problems} of a similar flavor (see \cite[(429)]{Jordan}).
+
+    \item[III.III] Again following work of Clebsch, given a quartic surface with a double conic, we can find five cones whose edges are bitangent to the surface. There are 16 lines on the quartic surface, each of which intersect the doubled conic at a single point. Can we solve for the lines given the quartic surface or the cones?
+    
+    \item[III.IV] Kummer showed there exist quartic surfaces with 16 singular points, which lie in groups of six on singular tangent planes, each of which intersect other tangent planes at these six points. Can we solve for these points (or these planes) given the Kummer surface?\footnote{This configuration admits a really nice contemporary description in terms of $\theta$-characteristics. We should come back and fill out the details here.}
+
+    \item[III.V] Following Steiner,\footnote{It's interesting to me that Steiner is cited here. Why not Salmon and Cayley?} every cubic surface has 27 lines. These lines lie on 45 tritangents, and two tritangent planes always intersect at some line, not necessarily a line on the cubic surface though. If two tritangent planes $a_1b_1c_1$ and $a_2b_2c_2$ don't meet at a line on a cubic surface, then there exists another tritangent plane $a_3b_3c_3$ for which $a_1a_2a_3$, $b_1b_2b_3$, and $c_1c_2c_3$ form tritangents. These are called \textit{trihedral pairs}, and there are 120 of them (see e.g. \cite[p.~112]{Hunt}). Can we solve for the equations of the lines given the equation of the cubic surface? Can we incorporate the constraints imposed by the trihedral pairs?
+
+    \item[III.VI] Again following Clebsch, fix a curve $C$ of order $n$ and $\frac{n(n-3)}{2}$ points on it. Can we determine the curves of order $n-3$ intersecting $C$? For example if $n=4$, can we determine all the 28 bitangents to $C$?
+\end{itemize}
+
+The idea of a \textit{Galois group} of an enumerative problem is a setting in which we can capture these kinds of algebraic questions. The right way to phrase these kinds of questions is in the language of generically finite maps of varieties.
+
+\subsection{Setup and goal}
+
+Let $X$ and $Y$ be irreducible algebraic varieties of the same dimension over $\C$, let $\pi \colon Y \to X$ have degree $d>0$. This induces a map on function fields $K(X) \to K(Y)$ which is a finite field extension.\footnote{If $X$ and $Y$ are affine, it's clear this function field extension is finite. In the general case, we can reduce to the affine case by looking at the generic points (since they're irreducible), see e.g. \cite[02NW]{Stacks}.} and necessarily separable since we are in characteristic zero.
+
+We're going to pick some nice $p \in X$ (in the region over which $\pi$ is finite), and look at its fibers $\pi^{-1}(p) = \left\{ q_1, \ldots, q_d \right\}$. We'll define two ways to permute the fibers -- one coming from Galois theory and one coming from monodromy, and we'll demonstrate that these are equal, following \cite[\S1]{Harris-Galois}.
+
+\subsection{The Galois group, formally}
+
+By the primitive element theorem, $K(Y)$ is generated over $K(X)$ by some rational function $f \in K(Y)$ which satisfies a minimal polynomial relation:
+\begin{align*}
+    P(f) = f^d + g_1 f^{d-1} + \ldots + g_{d-1}f + g_d = 0,
+\end{align*}
+where $g_1, \ldots, g_d\in K(X)$.
+
+Recall that $\O_X$ is the sheaf of holomorphic functions. We obtain the sheaf $\mathcal{K}_X$ of meromorphic functions as the quotient ring. We get an injection of sheaves $\O_X \to \mathcal{K}_X$. In the general scheme-theoretic setup, this need not be a field, however since our $X$ is particularly nice (integral, Noetherian,..) it will be. So we can look at the germs of meromorphic functions around $p$, which forms a \textit{field} $\mathcal{K}_{X,p}$. The covering map induces an isomorphism of fields at each $q_\alpha$:
+\begin{align*}
+    \pi_\alpha := \pi_\ast \colon K_{Y,q_\alpha} \xto{\sim} K_{X,p}.
+\end{align*}
+Let's define $\phi$ to be the inclusion of fields obtained by restricting global meromorphic functions around $p$:
+\begin{align*}
+    \phi \colon K(X) \hookto \mathcal{K}_{X,p},
+\end{align*}
+and $\phi_\alpha$ to be the composite
+\begin{align*}
+    K(Y) \to \mathcal{K}_{Y,q_\alpha} \xto{\pi_\alpha} \mathcal{K}_{X,p}.
+\end{align*}
+%
+We can sit everything inside $\mathcal{K}_{X,p}$, so let's fix some notation:
+\begin{enumerate}
+    \item $K$ is the image of $K(X)$ in $\mathcal{K}_{X,p}$ -- it is the restriction of global meromorphic functions on $X$ to a neighborhood of $p$
+    \item $L$ is the subfield of $\mathcal{K}_{X,p}$ generated by all the images of the $\phi_\alpha$'s. --- this is meromorphic functions around $p$, which are coming from meromorphic functions on $Y$ that have been restricted to some neighborhood of some $q_\alpha$
+\end{enumerate}
+Finally we take our elements $f \in K(Y)$ and $g_i \in K(X)$ and sit them inside the larger field:
+\begin{align*}
+    \phi \colon K(X) &\to K \subseteq\mathcal{K}_{X,p} \\
+    g_i &\mapsto \til{g}_i.
+\end{align*}
+and
+\begin{align*}
+    \phi_\alpha \colon K(Y) &\to \mathcal{K}_{X,p} \\
+    f &\mapsto \til{f}_\alpha.
+\end{align*}
+%
+Observe that all the $\til{f}_\alpha$'s are distinct! This is because in order for $f$ to generate $K(Y)$ over $K(X)$, it must take different values at each $q_\alpha$.
+
+%
+Moreover, each of the $\til{f}_\alpha$'s satisfy the image of the polynomial relation $P(f) = 0$ in $L$:
+\begin{align*}
+    \til{P}(\til{f}_\alpha) &= \til{f}_\alpha^d + \til{g}_1 \til{f}_\alpha^{d-1} + \ldots + \til{g}_d = 0.
+\end{align*}
+%
+Let's think about $\til{P}$ as a polynomial in $L[t]$. It is a degree $d$ polynomial with $d$ distinct roots, given by the $\til{f}_\alpha$'s.
+
+We claim then that $L$ is the normalization of $K(Y)/K(X)$, (which is identically $K_\alpha/K$. This is because the minimal polynomial $P(t)$ splits in $L$, and $L$ is the minimal field over which this occurs. So we have argued:
+
+\begin{proposition} $\Gal(L/K)$ is Galois.
+\end{proposition}
+
+The action of the Galois group permutes all the $\til{f}_\alpha$'s, which permutes the indices $\alpha$, giving us an inclusion
+\begin{align*}
+    \Gal(L/K) \hookto \Sigma_d.
+\end{align*}
+The image of this is the \textit{Galois group} of the enumerative problem.
+
+\subsection{The monodromy group}
+
+Since $\pi \colon Y \to X$ is an branched cover, it satisfies homotopy lifting away from the branched points. That is, any path in $X$ which doesn't pass through the branch locus can be lifted to a path in $Y$ after a starting point has been chosen.
+
+To that end, pick some $U \subseteq X$ Zariski open containing our $p$ and $V = \pi^{-1}(U)$ so that $\pi \colon V \to U$ is an unbranched cover. Then we obtain an inclusion
+\begin{align*}
+    \pi_1(U,p) \to \Sigma_d,
+\end{align*}
+given by the action of the deck group. The image of this is called the \textit{monodromy group} of our enumerative problem.
+
+\subsection{Monodromy and analytic continuation}
+
+Let $X$ be a Riemann surface, and consider a path $\gamma \colon [0,1] \to X$, and let's take two holomorphic germs $f\in \O_{X,\gamma(0)}$ and $g \in \O_{X,\gamma(1)}$. We say $g$ is the \textit{analytic continuation of $f$ along $\gamma$} if there is a finite sequence of open sets $U_i$ along the image of $\gamma$\footnote{We may assume finite since the image of $\gamma$ is compact.} and functions $f_i \in \O(U_i)$ so that $f_1 = f$ and $f_n = g$.
+
+\begin{theorem} If $\pi \colon Y \to X$ is an unbranched cover of a Riemann surface $X$, and $\gamma \in \pi_1(X,x)$ is some loop, then for any $f \in \O_{X,x}$, any choice of lift $\widetilde{\gamma} \colon [0,1] \to Y$, and any germ $g\in \O_{Y,\widetilde{\gamma}(0)}$ with $\pi_\ast g = f$, we have that analytic continuation of $g$ along $\widetilde{\gamma}$ exists, and the resulting germ $\til{g}$ also satisfies $\pi_\ast \til{g} = f$.
+\end{theorem}
+
+\subsection{The main result}
+
+We are going to prove the following:
+
+\begin{proposition} The Galois group $G$ equals the monodromy group $M$ in our setup.
+\end{proposition}
+
+The first step is to argue that $M \subseteq G$. That is, any permutation coming from monodromy can be realized by an automorphism of $L$ over $K$. This follows via analytic continuation! 
+
+
+
+If we pick some $\gamma \in \pi_1(U,p)$, then any lift of $\gamma$ to $V$ will send some $\til{f}_\alpha$ to some $\til{f}_\beta$. In particular since $K = \im(K(X) \hookto \mathcal{K}_{X,p})$ is fixed under analytic continuation, and since any element in $L$ is polynomial in germs at the $q_\alpha$'s, analytic continuation induces a field automorphism of $L/K$ permuting the $\til{f}_\alpha$'s. That is, this permutation lies in the Galois group.
+
+For the other direction, we want to see that the containment $M \subseteq G$ is not strict. Indeed if it were, then the $M$-fixed subfield $L^M$ would not be equal to $K$. So it suffices to argue that everything in $L$ fixed by the monodromy action is actually in $K$. As we have seen, the monodromy action occurs via analytic continuation.
+
+So take some $h \in L \subseteq \mathcal{K}_{X,p}$, and suppose $h$ is fixed under analytic continuation along any lift of an element in $\pi_1(U,p)$. We want to argue that $h$ is the restriction of a global meromorphic function on $X$ to a neighborhood of $p$. We'll define a candidate one -- define $\til{h}$ on $U$ by picking, for every $p' \in U$, an arc from $p$ to $p'$ and analytically continuing $h$ along it. This is well-defined precisely because $h$ is fixed under the monodromy action, so we obtain a well-defined value in a neighborhood of $p'$, independent of the path we chose.
+
+We now know that $h$ extends to a meromorphic function $\til{h}$ on $U$. We want to see that this extends to all of $X$. In order to do this, we exploit that $h \in L$. So $h$ can be written as some polynomial in $\til{h}_\alpha$'s, where $\til{h}_\alpha$ is a meromorphic function on all of $Y$ restricted to a neighborhood of $q_\alpha$. None of these have essential singularities, and this is unchanged when taking a polynomial in them. Hence $\til{h}$ has no essential singularities, and therefore extends to a meromorphic function on $X$ whose germ at $p$ is $h$. Thus $L^M = K$, and we are done.
+
+\subsection{An example we know and love}
+
+
+\begin{align*}
+    Y = \left\{ (f,t) \colon f(t) = 0 \right\} \subseteq \P^d \times \P^1.
+\end{align*}
+Then $Y \to \P^d$ is a projective bundle. We want to argue its Galois group is $S_n$. We need to show it is $2$-transitive ($G$ acts transitively by scaling on $G \times G$) and it contains a single transposition.
+
+\begin{proposition} If $Y \to X$ is generically finite, then the Galois group of $Y \to X$ is 2-transitive if and only if $Y \times_X Y \minus \Delta$ is irreducible.\footnote{There is also a version for $k$-transitivity.} 
+\end{proposition}
+
+In our case, we can argue that $Y \times_{\P^d} Y\minus\Delta$ is irreducible.
+
+To see it has a transposition, we find a polynomial with a single double root and all other roots distinct. Then the map $Y \to \P^d$ is locally irreducible near the fiber where the two sheets merge to form a double root, and monodromy around it yields a single transposition. This is phrased and proven precisely in a lemma on \cite[p.~698]{Harris-Galois}, which we will get to in a later talk.
+
+\textbf{Application}: The Galois group of solving for a root of a degree $n$ polynomial is $\Sigma_n$, and hence not solvable by radicals for $n\ge 5$.
+
+
+
+
+
+
+\printbibliography
+\end{document}
