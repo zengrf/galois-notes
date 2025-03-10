@@ -68,7 +68,7 @@ Camille Jordan, 1870, \cite[pp.301-302]{Jordan}}
 
 The six subsections of Chapter III in Jordan's book are dedicated to particular problems whose Galois group he is interested in studying. For instance:
 \begin{itemize}
-    \item[III.I] Given a planar cubic curve, we know by work of Hesse that it has the property that the line passing through any two of its flexes pass through the cubic at a third inflection point. As there are nine flexes, each flex lies on four of these lines, for a total of 12 lines.\footnote{todo -- I don't think all flexes can be real (?) but can we visualize this somehow?} \emph{Can we obtain a formula for the flexes in terms of the coefficients of the cubic?}
+    \item[III.I] Given a planar cubic curve, we know by work of Hesse that it has the property that the line passing through any two of its flexes pass through the cubic at a third inflection point. As there are nine flexes, each flex lies on four of these lines, for a total of 12 lines.\footnote{I'd love to include a nice picture here, but unfortunately by a result of Klein, a smooth real planar cubic will have at most three of its nine flexes defined over $\R$ \cite{Ronga-Klein}.} \emph{Can we obtain a formula for the flexes in terms of the coefficients of the cubic?}
 
     \item[III.II] Given a quartic curve, can we find a cubic curve so that among the 12 points of intersection, they are in three sets of four colinear points? This follows work of Clebsch, who asked \textit{contact problems} of a similar flavor (see \cite[(429)]{Jordan}).
 
@@ -183,10 +183,12 @@ We now know that $h$ extends to a meromorphic function $\til{h}$ on $U$. We want
 
 \subsection{An example we know and love}
 
+Consider the incidence variety of roots of a univariate polynomial
 \begin{align*}
     Y = \left\{ (f,t) \colon f(t) = 0 \right\} \subseteq \P^d \times \P^1.
 \end{align*}
-Then $Y \to \P^d$ is a projective bundle. We want to argue its Galois group is $S_n$. We need to show it is $2$-transitive ($G$ acts transitively by scaling on $G \times G$) and it contains a single transposition.
+Then $Y \to \P^d$ is a projective bundle. We want to argue its Galois group is $S_n$. We need to show it is $2$-transitive\footnote{Recall a group $G$ is $2$\emph{-transitive} if it acts transitively on the set $G \times G \minus \Delta$ of ordered pairs of elements in $G$.}
+and it contains a single transposition.
 
 \begin{proposition} If $Y \to X$ is generically finite, then the Galois group of $Y \to X$ is 2-transitive if and only if $Y \times_X Y \minus \Delta$ is irreducible.\footnote{There is also a version for $k$-transitivity.} 
 \end{proposition}
@@ -195,7 +197,7 @@ In our case, we can argue that $Y \times_{\P^d} Y\minus\Delta$ is irreducible.
 
 To see it has a transposition, we find a polynomial with a single double root and all other roots distinct. Then the map $Y \to \P^d$ is locally irreducible near the fiber where the two sheets merge to form a double root, and monodromy around it yields a single transposition. This is phrased and proven precisely in a lemma on \cite[p.~698]{Harris-Galois}, which we will get to in a later talk.
 
-\textbf{Application}: The Galois group of solving for a root of a degree $n$ polynomial is $\Sigma_n$, and hence not solvable by radicals for $n\ge 5$.
+\textbf{An ahistorical application}: The Galois group of solving for a root of a degree $n$ polynomial is $\Sigma_n$, and hence not solvable by radicals for $n\ge 5$.
 
 \printbibliography
 \end{document}
