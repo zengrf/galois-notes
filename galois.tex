@@ -58,13 +58,14 @@ Some notes from a mini-seminar run in Spring 2025 on Galois groups of enumerativ
 
 This question has its roots in 19th century algebraic geometry, and was crystallized by Jordan in Chapter III of his treatise on Galois theory:
 
-\begin{question} Are these sorts of questions \textit{solvable}? Meaning solvable in radicals?
-\end{question}
-
 
 \quoteblock{%
 Les solutions des problèmes dont il s'agit sont en général assez nombreuses, mais liées les unes aux autres par certaines relations géometriques. De ces relations on déduit immédiatement l'existence d'une fonction entière $\phi(x_0,x_1,\ldots)$ dont le group contient celui de l'équation $X$. Réciproquement, si l'on était certain de connaître \emph{toutes} les relations géométriques que présente la question proposée (ou du moins celles dont les autres dérivent), le group de l'équation $X$ contiendrait toutes les substitutions du group de $\phi(x_0,x_1,\ldots)$. Mais une semblable certitude est difficile à obtenir, malgré le soin apporté par d'habiles géomètres à l'étude de ces problèmes. Il ne serait donc pas impossible que les équations auxquelles ces problèmes donnent naissance eussent parfois une forme plus particulière encore que celle que nous allons trouver, en nous appuyant sur les résultats obtenus par nos prédécesseurs}{%
 Camille Jordan, 1870, \cite[pp.301-302]{Jordan}}
+
+\begin{question} Are these sorts of questions \textit{solvable}? Meaning solvable in radicals?
+\end{question}
+
 
 The six subsections of Chapter III in Jordan's book are dedicated to particular problems whose Galois group he is interested in studying. For instance:
 \begin{itemize}
@@ -200,6 +201,241 @@ In our case, we can argue that $Y \times_{\P^d} Y\minus\Delta$ is irreducible.
 To see it has a transposition, we find a polynomial with a single double root and all other roots distinct. Then the map $Y \to \P^d$ is locally irreducible near the fiber where the two sheets merge to form a double root, and monodromy around it yields a single transposition. This is phrased and proven precisely in a lemma on \cite[p.~698]{Harris-Galois}, which we will get to in a later talk.
 
 \textbf{An ahistorical application}: The Galois group of solving for a root of a degree $n$ polynomial is $\Sigma_n$, and hence not solvable by radicals for $n\ge 5$.
+
+\section{Flexes and bitangents}
+
+\subsection{Historical background}
+
+The study of high degree plane curves (degrees three or greater) dates back to Newton, but one of the first major results in this are came from Pl\"{u}cker (\textit{System der analytischen Geometrie}, page 264).
+
+\begin{theorem}[Plucker, 1835] A general degree $d$ planar curve has $3d(d-2)$ inflection points.
+\end{theorem}
+Pl\"{u}cker proved this by equation-bashing. We provide a slightly differeent proof, due to Hesse but likely predating him (see \cite[p.~169]{Gray-worlds}).
+
+\begin{proof}[Hesse's proof]
+Recall that the radius of curvature of a planar curve $F(x,y,z)=0$ at a point $(x_0,y_0,z_0)$ is the reciprocal of $\det(HF)_{|(x_0,y_0,z_0)}$, where $HF$ is the Hessian matrix of $F$. Note that the equation $\det HF=0$ is homogeneous of degree $3(d-2)$, and note further that a flex on a curve is precisely a point with infinite curvature radius. Hence we can count inflection points on $F$ via the intersection with its Hessian curve, hence by B\'{e}zout's theorem we have $3d(d-2)$ flexes.
+\end{proof}
+
+The so-called \textit{Pl\"ucker formulas} are highly related, and come from the same text. Pl\"{u}cker computed what is now called the \textit{class} of the curve $C$, namely the number of tangent lines to $C$ through another point $p$ on the plane. Note that under pole-polar duality, this is also the degree of the \textit{dual curve}. He observed by direct computation that the class of a general curve of degree $d$ is $d(d-1)$.
+
+In this direct algebraic approach, any line through $p$ passing through two points of $C$ (counted with multiplicity) qualifies as a tangent. Presuming that $C$ is smooth (and if we take $C$ to be general this is the case) then this is true on the nose, however even if $C$ is mildly singular this fails. Pl\"{u}cker observed that the quantity $d(d-1)$ overcounts the honest class of the curve by two for every double point of $C$ and by three for every cusp of $C$. This leads us to the formula
+\begin{align*}
+    d^\ast = d(d-1) - 2\delta - 3\kappa
+\end{align*}
+where $\delta$ is the number of nodes of $C$ and $\kappa$ is the number of cusps. This is the \textit{Pl\"ucker formula}, and it resolves the so-called ``duality paradox'' which plagued the study of pole-polar duality since its invention. A nice exposition to these results is in Coolidge's treatise \cite[Chapter~VI]{Coolidge}.
+
+\begin{terminology} A reduced irreducible planar curve $C$ is said to be a \textit{Pl\"ucker curve} if it falls under the scope of the Pl\"{u}cker formula -- explicitly, if the only singularities of $C$ and $C^\ast$ are cusps and simple nodes. 
+\end{terminology}
+
+
+\begin{remark} \,
+\begin{enumerate}
+    \item More general Pl\"{u}cker formulae hold in which singularities are allowed to be much more badly behaved.
+    \item Klein proved analogues of the Pl\"{u}cker formulae for real curves, treating split and non-split nodes differently. Leveraging his formula we are able to prove new results and give contemporary proofs of classical results known to Pl\"{u}cker, such as the fact that at most three of the nine flexes on a real cubic are real.
+    \item Pl\"{u}cker's arguments were fairly nonrigorous, and it is ahistorical to attribute to him rigorous arguments that appear to be easy applications of his formula (for instance the computation that there are 28 bitangents to a planar quartic, attributed either to Hesse in 1848 or Jacobi in 1850).
+\end{enumerate}
+\end{remark}
+
+Under duality, the Pl\"{u}cker formulae allow us to relate the numbers of bitangents and the numbers of flexes, since a bitangent to $C$ is a node on $C^\ast$, and a flex on $C$ is a cusp on $C^\ast$. If $C$ is a Pl\"{u}cker curve of degree $d$, we then have the relationship
+\begin{align*}
+    d = d^\ast(d^\ast-1) - 2b - 2f.
+\end{align*}
+Combining this with the number $3d(d-2)$ of flexes on $C$, we get
+\begin{align*}
+    d = d^\ast(d^\ast-1) - 2b - 2\cdot 3d(d-2).
+\end{align*}
+Let's now suppose that $C$ is suitably general, so that it is nonsingular and hence $d^\ast = d(d-1)$ with no correcion term. We then get
+\begin{align*}
+    d = d(d-1)\left( d(d-1)-1 \right) - 2b - 3\cdot 3d(d-2).
+\end{align*}
+Solving for $b$ we obtain
+\begin{align*}
+    b = \frac{1}{2}d(d-2)(d^2-9).
+\end{align*}
+This is the number of bitangents on a general smooth curve of degree $d$ as estimated by Pl\"{u}cker and proven by Jacobi.
+
+\subsection{Monodromy of flexes: the setup}
+
+Let $W_d := \mathbb{P}(H^0(\O_{\P^2}(d))) \cong \P^{\binom{d}{2}-1}$ be the complete linear system of degree $d$ plane curves, and let $I_0$ be the locus of points on lines
+\begin{align*}
+    I_0 := \left\{ (p,\ell) \colon p\in \ell \right\} \subseteq \P^2 \times (\P^2)^\ast.
+\end{align*}
+We let
+\begin{align*}
+    I_d := \left\{ (C,p,\ell) : m_p(C\cdot \ell)\ge 3 \right\} \subseteq W_d \times I_0
+\end{align*}
+be the incidence variety of curves equipped with a flex. We obtain projection maps
+\[ \begin{tikzcd}
+     & I_d\ar[dl,"\pi" above left]\ar[dr,"\eta" above right] & \\
+    W_d &  & I_0.
+\end{tikzcd} \]
+%
+\begin{proposition} If $d \ge 3$, then $\pi$ is generically finite of degree $3d(d-2)$.
+\end{proposition}
+\begin{proof} We can argue that the general curve of degree $d$ has only flexes and bitangents (it doesn't admit a hyperflex, a tritangent, or a flex bitangent). Hence over this open locus, $\pi$ has a well-defined degree. Note we restrict to $d\ge 3$, since a conic has no flexes. Obtaining the degree is exactly the Pl\"{u}cker formula, which as we have seen can be derived in multiple different ways.
+\end{proof}
+
+
+We want to try to find the monodromy group of $\pi$, and the following fact will be helpful.
+
+\begin{proposition}\label{prop:Id-irred-flexes}
+The incidence variety $I_d$ is irreducible.
+\end{proposition}
+\begin{proof} We can consider the projection $\eta \colon I_d \to I_0$. Since $I_0$ is irreducible, we will be able to conclude (by \autoref{prop:irred-criterion}) that $I_d$ is irreducible if $\eta$ has equidimensional fibers. Indeed we can check that the fiber of $\eta$ over any point $(p,\ell) \in I_0$ is exactly those degree $d$ plane curves with a flex line $\ell$ at the point $p$. This is always a codimension three linear subspace of $W_d$.
+\end{proof}
+
+We now want to argue that the monodromy group $\Mon(\pi)$ acts transitively on the fibers of $\pi$. By covering space theory, it will suffice to argue that, by restricting to the locus $U \subseteq W_d$ over which $\pi$ is unramified, the fiber $\pi^{-1}(U)$ is connected.
+
+\begin{proposition}\label{prop:monodromy-flexes-transitive} 
+The monodromy group acts transitively on the fibers of $\pi$.
+\end{proposition}
+\begin{proof} todo
+\end{proof}
+
+
+\begin{proposition} The monodromy group is $2$-transitive on the fibers of $\pi$.
+\end{proposition}
+\begin{proof} todo
+\end{proof}
+
+
+To argue that the monodromy group is full symmetric, it suffices to exhibit a transposition. Here we use this key lemma:
+
+\begin{lemma}[{\cite[p.~698]{Harris-Galois}}] Let $\pi \colon Y \to X$ be holomorphic of degree $n$, and suppose there exists some $p\in X$ so that $\pi^{-1}(p) = \left\{ q_1, \ldots, q_{n-1} \right\}$ has $(n-1)$ distinct points, so that $\pi$ is simple at $q_1, \ldots, q_{n-2}$, and $\pi$ has a double point at $q_{n-1}$. Suppose further that $Y$ is locally irreducible at $q_{n-1}$. Then the monodromy group of $\pi$ contains a simple transposition, obtained by taking a small loop around $p$.
+\end{lemma}
+\begin{proof} todo
+\end{proof}
+
+
+So we'd like to locate a planar curve with $3d(d-2) - 2$ simple flexes, and exactly one \textit{hyperflex}. Note at the hyperflex the tangent line will meet to order $\ge 4$, and in particular this would violate B\'{e}zout's theorem if $d \le 3$.
+
+\begin{theorem} For $d\ge 4$, the monodromy group of $I_d \xto{\pi} W_d$ is the full symmetric group $\Sigma_{3d(d-2)}$.
+\end{theorem}
+\begin{proof} Fix a point $(p_0,\ell_0) \in I_0$, and consider the linear system of degree $d$ curves with a hyperflex at $(p_0,\ell_0)$:
+\begin{align*}
+    W'' = \left\{ C \in W \colon m_{p_0}(C\cdot \ell_0) \ge 4 \right\} \subseteq W.
+\end{align*}
+A general $C \in W''$ is smooth at $p_0$ with $\ell_0$ a simple hyperflex (the multiplicity is exactly four). How do we know that the general element in $W''$ has only simple flexes at the other flex points though? Consider the incidence correspondence
+\begin{align*}
+    I'' = \left\{ (C,p,\ell) \colon m_p(C\cdot \ell) \ge3,\ p\ne p_0,\ \ell\ne \ell_0 \right\} \subseteq W'' \times I_0.
+\end{align*}
+The fibers of $\eta \colon I'' \to I_0$ are linear of codimension three in $W''$, therefore $I''$ is irreducible of dimension $\dim I'' = \dim W''$ (todo: why?). Then...
+\end{proof}
+
+
+\subsection{Monodromy of flexes on plane cubics}
+
+todo
+
+
+\section{Monodromy of bitangents}
+
+... to show the monodromy is transitive, we have to show (by covering space theory) that the covering space is connected. To do this, we consider the projection
+\begin{align*}
+    \eta \colon J_d \to J_0 \cong \Conf_2(\P^2).
+\end{align*}
+The fiber of $\eta$ over a point in $J_0$ is a linear subspace in $J_d$. So $\eta$ is a fiber bundle, hence $J_d$ is irreducible, hence connected. Then the monodromy is transitive.
+
+\begin{proposition} The monodromy acts 2-transitively on the fiber.
+\end{proposition}
+\begin{proof} It suffices to argue that the stabilizer of a bitangent, as a subgroup of monodromy, acts on the remaining points in the fiber transitively....
+\end{proof}
+
+
+To exhibit a simple transposition, we want to find a curve with one fewer than the generic number of bitangents. It will be a curve with a simple flex bitangent. This will exist for $d \ge 5$ (because we can't have a flex bitangent for a degree four curve by B\'{e}zout).
+
+
+\subsection{Monodromy for quartics}
+
+Given a bitangent $\overline{p_1 p_2}$ to a generic quartic $C$, note that $2p_1 + 2p_2 \sim K_C$ is the canonical class, i.e. a hyperplane section of the quartic. Conversely, since $C$ is ``nice'' any divisor equivalent to $K_C$ which has the form $2p_1 + 2p_2$ is cut out by a line. Here nice means projectively normal, i.e. canonically embedded by a complete linear series, and for every $d$, we have a surjection
+\begin{align*}
+    H^0(\P^2, \O_{\P^2}(d)) \tto H^0(C,\O_C(d)).
+\end{align*}
+Projectively normal is normal + this condition.
+
+Hence we get a bijection between bitangents to $C$ and divisors $p_1 + p_2$ so that $2(p_1 + p_2)\sim K_C$.
+
+If $k$ is any divisor with $2k\sim K_C$, then $2(p_1 + p_2 - k) = 0$. Hence $(p_1 + p_2) - k$ is a deg 0 divisor in $C$ and $k - (p_1 + p_2)$ has order 2.
+
+So bitangents correspond to 2-torsion points in $\Pic^0$.
+
+\textbf{Abel-Jacobi theorem} We have that
+\begin{align*}
+    \Pic^0(C) \xto{\sim} J(C),
+\end{align*}
+where $J(C)$ is the Jacobian
+\begin{align*}
+    J(C) = H^0(C,\Omega^1_C)^\ast / H_1(C;\Z).
+\end{align*}
+%
+Explicitly, if we fix a basepoint $p_0 \in C$, we send $p - p_0$ to $\omega \mapsto \int_{p_0}^p \omega$. A priori the target depends on the path we pick between $p_0$ and $p$, however we've modded out by $H_1(C;\Z)$ so it doesn't matter.
+
+Bitangents correspond to some 2-torsion points in $J(C) = \C^3 / \Z^6$.\footnote{Here $g = 3$ so $H^0(C,\Omega^1_C) \cong \C^3$.} Here we're looking at a torus, so we have a nice structure to work with to find 2-torsion stuff.
+
+[pic -- in $\C/\Z$ there are four 2-torsion points]
+
+We know the points of order 2 in $J(C)$ form a 6D vector space $\mathbb{F}_2^{6}$. This has 64 elements, so not all of them are bitangents.
+
+How does the monodromy group act on $J(C)$? We claim it preserves the affine structure (this follows from the following: if we take four bitangents, with the property that the four lines sum to zero in the jacobian, then the eight points of tangency lie on a common conic. this geometric intersection property is preserved by monodromy ), so we get that
+\begin{align*}
+    \Mon(\pi) \le \AGL_6(\mathbb{F}_2).
+\end{align*}
+%
+It turns out there are further restrictions.
+
+We have a skew-symmetric non-degenerate pairing
+\begin{align*}
+    \til{Q} \colon H_1(C;\Z) \times H_1(C,\Z) \to \Z,
+\end{align*}
+given by intersection with signs. This induces a form on half of the lattice
+\begin{align*}
+    4 \til{Q} \colon \frac{1}{2}\Lambda \times \frac{1}{2} \Lambda &\to \Z \\
+    (v,w) &\mapsto \til{Q}(2v,2w).
+\end{align*}
+This is ``manually imposing'' the intersection form on the more dense lattice.
+
+This in turn induces a form on the quotient (where $V = \frac{1}{2}\Lambda / \Lambda$ is our 6D vector space over $\mathbb{F}_2$ as before):
+\begin{align*}
+    Q \colon V \times V \to \Z/2.
+\end{align*}
+It is valued in $2\Z$, since if we input any two things from $\Lambda$ we get something even.
+
+This is a \textit{strictly} skew-symmetric bilinear form.
+
+This form is preserved by $\Mon(\pi)$, hence
+\begin{align*}
+    \Mon(\pi) \le \text{AO}_6(\mathbb{F}_2).
+\end{align*}
+%
+
+Associated to any symmetric bilinear form, we will get two quadratic refinements $q^+$ and $q_-$. These are helpful in determining the \textit{effective} semicanonical divisors. That is, we can find quadratic forms satisfying $q(v) = 0$ if and only if $v$ represents a bitangent. The monodromy group will preserve this quadratic form, so we ultimately get the monodromy group is a subgroup of the \textit{Steiner group} $H$, which is $O_6(\Z/2)$.
+
+Can show that $\Stab_{\Mon(\pi)}(k_0) = O_6^{-}(\Z/2)$. Sidhanth will explain!
+
+
+
+
+\appendix
+\section{Algebraic geometry terms and references}
+
+Here are some terms and results, laid out in the order we need to use them throughout the notes.
+
+\begin{definition}[{\cite[p.~91]{Hartshorne}}]
+\label{def:generically-finite}
+If $f \colon X \to Y$ is a morphism of varieties with $Y$ irreducible, we say it is \textit{generically finite} if $f^{-1}(\eta)$ is a finite set, where $\eta$ is the generic point in $Y$.
+\end{definition}
+
+\begin{remark} If $f$ is locally of finite type and qcqs, being generically finite admits some equivalent conditions (see e.g. \cite[02NW]{Stacks}).
+\end{remark}
+
+\begin{proposition}\label{prop:irred-criterion}
+Let $f\colon X\to Y$ is a map with irreducible equidimensional fibers, with $Y$ irreducible. Suppose that either $X$ is equidimensional or $f$ is proper. Then $X$ is irreducible.
+\end{proposition}
+\begin{proof} A proof can be found in \url{https://public.websites.umich.edu/~mmustata/Note1_09.pdf}
+\end{proof}
+
+
+
 
 \printbibliography
 \end{document}
