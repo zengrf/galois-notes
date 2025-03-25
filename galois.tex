@@ -34,6 +34,8 @@
 \setlength{\epigraphwidth}{0.8\textwidth}
 \newcommand{\quoteblock}[2]{\epigraph{\itshape#1}{#2}}
 
+\providecommand{\Mon}{\mathrm{Mon}}
+
 \fancyfoot[C]{\thepage}
 \begin{document}
 
@@ -249,9 +251,11 @@ Let's now suppose that $C$ is suitably general, so that it is nonsingular and he
     d = d(d-1)\left( d(d-1)-1 \right) - 2b - 3\cdot 3d(d-2).
 \end{align*}
 Solving for $b$ we obtain
-\begin{align*}
+\begin{equation}\label{eqn:bitangents-in-terms-of-degree}
+\begin{aligned}
     b = \frac{1}{2}d(d-2)(d^2-9).
-\end{align*}
+\end{aligned}
+\end{equation}
 This is the number of bitangents on a general smooth curve of degree $d$ as estimated by Pl\"{u}cker and proven by Jacobi.
 
 \subsection{Monodromy of flexes: the setup}
@@ -330,6 +334,33 @@ todo
 
 \section{Monodromy of bitangents}
 
+A classical problem is to compute the monodromy group of the 28 bitangents to a smooth planar quartic. As mentioned, this was a particular application for Galois theory envisioned by Jordan \cite[III.VI]{Jordan}.
+
+\subsection{History of bitangents to quartics}
+
+As discussed earlier, the expression (\autoref{eqn:bitangents-in-terms-of-degree}) for the number of bitangents to a smooth curve of degree $d$, in terms of $d$, was known to Pl\"{u}cker in the 1830's. Despite this, Pl\"{u}cker's arguments are considered from a modern perspective (and likely also at the time) as sketchy at best. The so-called Pl\"{u}cker formulas were not rigorously proven by Pl\"{u}cker, and although he did sketch an accurate resolution of the pole-polar duality paradox, it did not constitute a proof.
+
+The expression in \autoref{eqn:bitangents-in-terms-of-degree} was proven by Jacobi \cite{Jacobi1850}, an application of which is the computation that when $d=4$, a smooth planar quartic has 28 bitangents. This was extended shortly afterwards by Hesse, a student of Jacobi, who showed that a \textit{general} quartic has 28 bitangents \cite{Hesse1855}. Hesse's work was immensely difficult, and he likened it in a letter to Jacobi to Newton's work discovering the law of gravity \cite[p.~165]{Gray-worlds}.
+
+For a very classical textbook treatment of the theory of bitangents to quartics, section 12 (\S95-\S105) of Weber's 1896 book on algebra is dedicated to this \cite[\S95-\S105]{Weber1896}. A contemporary treatment can be found in \cite[\S6.1]{Dolgachev}.
+
+Jordan, inspired by work of Clebsch, initially asked to what extent equations for bitangents can be solved for in terms of the equations for a quartic, which is precisely the question of what the Galois group is. It's unclear to me who first solved for the Galois group of bitangents. We can write it in a number of different ways:
+\begin{align*}
+    O_6^-(\Z/2) \cong \Sp_6(\Z/2) \cong W(E_7)/\{\pm 1\}.
+\end{align*}
+The first two describe the same group (like even beyond group isomorphism they are describing the same quadratic forms in mildly different language). The latter group passes through the theory of Lie groups. Some references for this connection:
+\begin{itemize}
+    \item See \cite[Theorem~9]{DolgachevOrtland} for the derivation of this group in terms of the theory of Cayley octads (I can add the story of Cayley octads to these notes if people like)
+    \item Manivel \cite{Manivel2006} discusses this, and mentions in the intro to the paper that the Galois groups for bitangents and lines to cubic surfaces were well-known at the beginning of the 1900's. He references a connection to Lie groups that passes through the theory of Del Pezzo surfaces of degrees 3 and 2. The point of Manivel's paper is cutting out this passage through Del Pezzos and drawing a direct connection to the Lie groups. I'd like to understand both of these stories.
+    \item In \cite[p.~367]{MillerBlichfeldtDickson}, the Galois group of 28 bitangents is spelled out explicitly. The $7$ in $E_7$ comes in here through the theory of Aronhold sets --- that is, given an Aronhold set, we can solve for the remaining bitangents. What is this connection, and how does it relate to the theory of Cayley octads?
+\end{itemize}
+
+
+\subsection{Computing the monodromy of bitangents to plane curves}
+
+
+
+
 ... to show the monodromy is transitive, we have to show (by covering space theory) that the covering space is connected. To do this, we consider the projection
 \begin{align*}
     \eta \colon J_d \to J_0 \cong \Conf_2(\P^2).
@@ -345,7 +376,7 @@ The fiber of $\eta$ over a point in $J_0$ is a linear subspace in $J_d$. So $\et
 To exhibit a simple transposition, we want to find a curve with one fewer than the generic number of bitangents. It will be a curve with a simple flex bitangent. This will exist for $d \ge 5$ (because we can't have a flex bitangent for a degree four curve by B\'{e}zout).
 
 
-\subsection{Monodromy for quartics}
+\subsection{Monodromy of bitangents to quartics}
 
 Given a bitangent $\overline{p_1 p_2}$ to a generic quartic $C$, note that $2p_1 + 2p_2 \sim K_C$ is the canonical class, i.e. a hyperplane section of the quartic. Conversely, since $C$ is ``nice'' any divisor equivalent to $K_C$ which has the form $2p_1 + 2p_2$ is cut out by a line. Here nice means projectively normal, i.e. canonically embedded by a complete linear series, and for every $d$, we have a surjection
 \begin{align*}
@@ -378,7 +409,7 @@ We know the points of order 2 in $J(C)$ form a 6D vector space $\mathbb{F}_2^{6}
 
 How does the monodromy group act on $J(C)$? We claim it preserves the affine structure (this follows from the following: if we take four bitangents, with the property that the four lines sum to zero in the jacobian, then the eight points of tangency lie on a common conic. this geometric intersection property is preserved by monodromy ), so we get that
 \begin{align*}
-    \Mon(\pi) \le \AGL_6(\mathbb{F}_2).
+    \Mon(\pi) \le \text{AGL}_6(\mathbb{F}_2).
 \end{align*}
 %
 It turns out there are further restrictions.
